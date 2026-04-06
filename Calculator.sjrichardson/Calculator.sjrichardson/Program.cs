@@ -10,7 +10,7 @@ class Program
         Console.WriteLine("------------------------\n");
 
         CalculatorLibrary.CalculatorLibrary calculator = new CalculatorLibrary.CalculatorLibrary();
-
+        calculator.LoadHistory();
         while (!endApp)
         {
             // Declare variables and set to empty.
