@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 namespace CalculatorLibrary
 {
-    public class CalculatorLibrary
+    public class Calculator
     {
-
-        List<Calculation> calculationHistory;
+        History calculationHistory;
         private const string CalculationHisoryFilePath = "Calculator.json";
-        public CalculatorLibrary()
+        public Calculator()
         {
-            calculationHistory = new List<Calculation>();
+            calculationHistory = new History();
         }
 
         public double DoOperation(double num1, double num2, string op)
@@ -44,33 +43,14 @@ namespace CalculatorLibrary
                     break;
             }
 
-            calculationHistory.Add(new Calculation(num1, num2, operation, result));
-
+            calculationHistory.AddToCalculationHistory(new Calculation(num1, num2, operation, result));
 
             return result;
         }
 
+        public void Shutdown() => calculationHistory.RecordHistory();
 
-        public void RecordHistory()
-        {
-            using (StreamWriter file = File.CreateText(CalculationHisoryFilePath))
-            {
-                JsonSerializer serializer = new();
-                serializer.Serialize(file, calculationHistory);
-            }
-        }
 
-        public void LoadHistory()
-        {
-            if (File.Exists(CalculationHisoryFilePath))
-            {
-                calculationHistory = JsonConvert.DeserializeObject<List<Calculation>>(File.ReadAllText(CalculationHisoryFilePath)) ?? new();
-            }
-            else
-            {
-                calculationHistory = new();
-            }
 
-        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿
 
+using System.Text.Json.Serialization;
+
 namespace CalculatorLibrary
 {
     public class Calculation
@@ -8,17 +10,16 @@ namespace CalculatorLibrary
         public double Operand2 { get; }
         public string? Operation { get; }
         public double Result { get; }
-        public Calculation(double num1, double num2, string? operation, double result)
+
+        [JsonConstructor]
+        public Calculation(double operand1, double operand2, string? operation, double result)
         {
-            this.Operand1 = num1;
-            this.Operand2 = num2;
+            this.Operand1 = operand1;
+            this.Operand2 = operand2;
             this.Operation = operation;
             this.Result = result;
         }
 
-        public override string ToString()
-        {
-            return $"{Operand1} {Operation} {Operand2} = {Result}";
-        }
+        public override string ToString() => $"{Operand1} {Operation} {Operand2} = {Result}";
     }
 }
