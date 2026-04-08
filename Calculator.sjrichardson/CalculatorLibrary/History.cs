@@ -18,7 +18,9 @@ namespace CalculatorLibrary
             calculationHistory = new List<Calculation>();
             LoadHistory();
         }
-
+        /// <summary>
+        /// Save the Calculation History list to the History file.
+        /// </summary>
         public void RecordHistory()
         {
             using (StreamWriter file = File.CreateText(CalculationHisoryFilePath))
@@ -28,6 +30,9 @@ namespace CalculatorLibrary
             }
         }
 
+        /// <summary>
+        /// Load the Calculation History list from the History file.
+        /// </summary>
         private void LoadHistory()
         {
             if (File.Exists(CalculationHisoryFilePath))
@@ -41,7 +46,9 @@ namespace CalculatorLibrary
             }
 
         }
-
+        /// <summary>
+        /// Clear the Calculation History list and save to the History file.
+        /// </summary>
         public void ClearHistory()
         {
             calculationHistory.Clear();
@@ -49,21 +56,24 @@ namespace CalculatorLibrary
             Console.WriteLine("History cleared...");
         }
 
+        /// <summary>
+        /// Add new calculation to the Calculation History list.
+        /// </summary>
+        /// <param name="calculation">The Calculation to add to the list.</param>
         public void AddToCalculationHistory(Calculation calculation) => calculationHistory.Add(calculation);
 
         // probably need some validation here or above
+        /// <summary>
+        /// Returns the result value of the Calculation at the given index. Input validation is performed before this point so we do not validate here.
+        /// </summary>
+        /// <param name="resultIndex">Index of the Result in the Calculation History list.</param>
+        /// <returns></returns>
         public double RecallPreviousResult(int resultIndex) => calculationHistory[resultIndex].Result;
 
-        public List<(int, double)> GetPreviousResults()
-        {
-            List<(int idx, double result)> historyList = new List<(int idx, double result)>();
-            for (int i = 0; i < calculationHistory.Count; i++)
-            {
-                historyList.Add((i, calculationHistory[i].Result));
-            }
-
-            return historyList;
-
-        }
+        /// <summary>
+        /// Returns the Result fields of each entry in the Calculation History list.
+        /// </summary>
+        /// <returns>A list of Result values.</returns>
+        public List<double> GetPreviousResults() => calculationHistory.Select(calc => calc.Result).ToList();
     }
 }

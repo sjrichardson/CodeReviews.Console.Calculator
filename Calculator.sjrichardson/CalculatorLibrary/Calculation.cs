@@ -19,7 +19,5 @@ namespace CalculatorLibrary
             this.Operation = operation;
             this.Result = result;
         }
-
-        public override string ToString() => $"{Operand1} {Operation} {Operand2} = {Result}";
     }
 }

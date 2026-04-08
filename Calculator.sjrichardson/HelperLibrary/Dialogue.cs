@@ -6,6 +6,9 @@ namespace DialogueLibrary
 {
     public class Dialogue
     {
+        /// <summary>
+        /// The possible actions that the program can take after an operation is complete.
+        /// </summary>
         public enum PostOpSelections
         {
             Continue,
@@ -18,7 +21,12 @@ namespace DialogueLibrary
             Console.WriteLine("Console Calculator in C#\r");
             PrintLineSeparator();
         }
-        public double RequestNumericInput(List<(int, double)> calculationHistoryResults)
+        /// <summary>
+        /// Requests a number from the user. The user may also type "h" to select a value from the Calculation History list.
+        /// </summary>
+        /// <param name="calculationHistoryResults">List of previous calculation results.</param>
+        /// <returns>The parsed input or selected result.</returns>
+        public double RequestNumericInput(List<double> calculationHistoryResults)
         {
 
             Console.Write("Type a number, (or h) and then press Enter: ");
@@ -44,6 +52,10 @@ namespace DialogueLibrary
             return cleanNum;
         }
 
+        /// <summary>
+        /// Requests an operation from the user. This method only accepts valid operations (a, s, m, or d).
+        /// </summary>
+        /// <returns>The selected operation. (a, s, m, or d)</returns>
         public string RequestOperation()
         {
             PrintOperations();
@@ -58,7 +70,9 @@ namespace DialogueLibrary
             }
             return op;
         }
-
+        /// <summary>
+        /// Print the possible operations to the dialogue.
+        /// </summary>
         public void PrintOperations()
         {
             Console.WriteLine("Choose an operator from the following list:");
@@ -69,13 +83,18 @@ namespace DialogueLibrary
             Console.Write("Your option? ");
         }
 
-        public double RequestResultHistorySelection(List<(int idx, double result)> calculationHistoryResults)
+        /// <summary>
+        /// Prints the Result history to the dialogue.
+        /// </summary>
+        /// <param name="calculationHistoryResults">List of previous calculation results.</param>
+        /// <returns>The Result associated with the selected historical result.</returns>
+        public double RequestResultHistorySelection(List<double> calculationHistoryResults)
         {
             PrintLineSeparator();
             Console.WriteLine("Previous Results");
-            foreach ((int idx, double result) in calculationHistoryResults)
+            for (int i = 0; i < calculationHistoryResults.Count(); i++)
             {
-                Console.WriteLine($"Index: {idx}, Result: {result}");
+                Console.WriteLine($"Index: {i}, Result: {calculationHistoryResults[i]}");
             }
 
             Console.WriteLine("Type an index to recall the result: ");
@@ -88,12 +107,15 @@ namespace DialogueLibrary
                 value = Console.ReadLine();
             }
 
-            Console.WriteLine($"You have selected: {calculationHistoryResults[cleanIndex].result}");
+            Console.WriteLine($"You have selected: {calculationHistoryResults[cleanIndex]}");
             PrintLineSeparator();
 
-            return calculationHistoryResults[cleanIndex].result;
+            return calculationHistoryResults[cleanIndex];
         }
-
+        /// <summary>
+        /// Allows the user to clear history, end the program, or continue.
+        /// </summary>
+        /// <returns>The selected action defined in the PostOpSelections enum.</returns>
         public PostOpSelections RequestPostOperationInstruction()
         {
             // Wait for the user to respond before closing.
@@ -106,6 +128,9 @@ namespace DialogueLibrary
 
             return PostOpSelections.Continue;
         }
+        /// <summary>
+        /// Prints a line separator for a clean and uniform experience.
+        /// </summary>
         public void PrintLineSeparator() => Console.WriteLine("------------------------\n");
     }
 }

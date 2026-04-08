@@ -8,7 +8,12 @@ namespace CalculatorLibrary
         {
             calculationHistory = new History();
         }
-
+        /// <summary>
+        /// Performs the given operation and saves it to history if the result is valid.
+        /// </summary>
+        /// <param name="num1">First number of the operation.</param>
+        /// <param name="num2">Second number of the operation.</param>
+        /// <param name="op">The first letter of the operation. (a, s, m, or d)</param>
         public void DoOperation(double num1, double num2, string op)
         {
             double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
@@ -51,8 +56,11 @@ namespace CalculatorLibrary
                 calculationHistory.AddToCalculationHistory(new Calculation(num1, num2, operation, result));
             }
         }
-
-        public List<(int, double)> GetCalculationHistoryResults() => calculationHistory.GetPreviousResults();
+        /// <summary>
+        /// Returns the Calculation History as a tuple containing the Calculation's index and result value.
+        /// </summary>
+        /// <returns>Tuple containing the List index and Calculation value.</returns>
+        public List<double> GetCalculationHistoryResults() => calculationHistory.GetPreviousResults();
 
         public void ClearCalculationHistory() => calculationHistory.ClearHistory();
         public void Shutdown() => calculationHistory.RecordHistory();

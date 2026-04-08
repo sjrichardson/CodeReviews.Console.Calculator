@@ -13,7 +13,7 @@ class Program
 
         while (postOp != Dialogue.PostOpSelections.End)
         {
-            List<(int, double)> previousResults = calculator.GetCalculationHistoryResults();
+            List<double> previousResults = calculator.GetCalculationHistoryResults();
             double numInput1 = dialogue.RequestNumericInput(previousResults);
             double numInput2 = dialogue.RequestNumericInput(previousResults);
             string op = dialogue.RequestOperation();
