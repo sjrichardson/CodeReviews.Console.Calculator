@@ -1,17 +1,15 @@
-﻿using System.Diagnostics;
-using Newtonsoft.Json;
+﻿
 namespace CalculatorLibrary
 {
     public class Calculator
     {
         History calculationHistory;
-        private const string CalculationHisoryFilePath = "Calculator.json";
         public Calculator()
         {
             calculationHistory = new History();
         }
 
-        public double DoOperation(double num1, double num2, string op)
+        public void DoOperation(double num1, double num2, string op)
         {
             double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
             // Use a switch statement to do the math.
@@ -43,11 +41,20 @@ namespace CalculatorLibrary
                     break;
             }
 
-            calculationHistory.AddToCalculationHistory(new Calculation(num1, num2, operation, result));
-
-            return result;
+            if (double.IsNaN(result))
+            {
+                Console.WriteLine("This operation will result in a mathematical error.\n");
+            }
+            else
+            {
+                Console.WriteLine("Your result: {0:0.##}\n", result);
+                calculationHistory.AddToCalculationHistory(new Calculation(num1, num2, operation, result));
+            }
         }
 
+        public List<(int, double)> GetCalculationHistoryResults() => calculationHistory.GetPreviousResults();
+
+        public void ClearCalculationHistory() => calculationHistory.ClearHistory();
         public void Shutdown() => calculationHistory.RecordHistory();
 
 

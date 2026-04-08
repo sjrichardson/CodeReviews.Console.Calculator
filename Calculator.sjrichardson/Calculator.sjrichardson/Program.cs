@@ -6,26 +6,21 @@ class Program
 {
     static void Main(string[] args)
     {
-        bool endApp = false;
+        Dialogue.PostOpSelections postOp = Dialogue.PostOpSelections.Continue;
 
         Dialogue dialogue = new Dialogue();
         Calculator calculator = new();
 
-        while (!endApp)
+        while (postOp != Dialogue.PostOpSelections.End)
         {
-            double result = 0;
-            double numInput1 = dialogue.RequestNumericInput();
-            double numInput2 = dialogue.RequestNumericInput();
+            List<(int, double)> previousResults = calculator.GetCalculationHistoryResults();
+            double numInput1 = dialogue.RequestNumericInput(previousResults);
+            double numInput2 = dialogue.RequestNumericInput(previousResults);
             string op = dialogue.RequestOperation();
 
             try
             {
-                result = calculator.DoOperation(numInput1, numInput2, op);
-                if (double.IsNaN(result))
-                {
-                    Console.WriteLine("This operation will result in a mathematical error.\n");
-                }
-                else Console.WriteLine("Your result: {0:0.##}\n", result);
+                calculator.DoOperation(numInput1, numInput2, op);
             }
             catch (Exception e)
             {
@@ -33,9 +28,11 @@ class Program
             }
             dialogue.PrintLineSeparator();
 
-            endApp = dialogue.RequestPostOperationInstruction();
+            postOp = dialogue.RequestPostOperationInstruction();
+            if (postOp == Dialogue.PostOpSelections.Clear) calculator.ClearCalculationHistory();
         }
 
+        calculator.Shutdown();
         return;
     }
 

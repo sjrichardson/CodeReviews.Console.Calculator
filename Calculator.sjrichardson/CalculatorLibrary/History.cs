@@ -54,13 +54,15 @@ namespace CalculatorLibrary
         // probably need some validation here or above
         public double RecallPreviousResult(int resultIndex) => calculationHistory[resultIndex].Result;
 
-        public void PrintPreviousResults()
+        public List<(int, double)> GetPreviousResults()
         {
-            Console.WriteLine("Previous Results");
+            List<(int idx, double result)> historyList = new List<(int idx, double result)>();
             for (int i = 0; i < calculationHistory.Count; i++)
             {
-                Console.WriteLine($"Recall Index: {i} Value: {calculationHistory[i]}");
+                historyList.Add((i, calculationHistory[i].Result));
             }
+
+            return historyList;
 
         }
     }
